@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator + Waktu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .calc {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            width: 320px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .time-section {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            color: white;
+        }
+        #time { font-size: 1.8em; font-weight: bold; margin-bottom: 3px; }
+        #date { font-size: 0.9em; opacity: 0.9; }
+        .display {
+            width: 100%; height: 70px; font-size: 2em; text-align: right;
+            padding: 15px; margin-bottom: 15px; border: none; border-radius: 10px;
+            background: rgba(255,255,255,0.2); color: white;
+        }
+        .buttons {
+            display: grid; grid-template-columns: repeat(4,1fr); gap: 10px;
+        }
+        button {
+            height: 55px; font-size: 1.4em; border: none; border-radius: 10px;
+            cursor: pointer; background: rgba(255,255,255,0.2); color: white;
+            transition: all 0.2s;
+        }
+        button:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
+        .op { background: rgba(255,193,7,0.8); }
+        .eq { background: rgba(40,167,69,0.9); grid-column: span 2; }
+        .clear { background: rgba(220,53,69,0.9); grid-column: span 2; }
+        h1 { text-align: center; color: white; margin-bottom: 10px; font-size: 1.5em; }
+    </style>
+</head>
+<body>
+    <div class="calc">
+        <h1>🧮 Kalkulator</h1>
+        
+        <div class="time-section">
+            <div id="time">00:00:00</div>
+            <div id="date">Senin, 1 Jan 2024</div>
+        </div>
+        
+        <input type="text" class="display" id="display" readonly value="0">
+        
+        <div class="buttons">
+            <button class="clear" onclick="clearAll()">C</button>
+            <button class="op" onclick="setOp('+')">+</button>
+            <button class="op" onclick="setOp('-')">-</button>
+            <button onclick="calc()">=</button>
+            
+            <button onclick="input('7')">7</button>
+            <button onclick="input('8')">8</button>
+            <button onclick="input('9')">9</button>
+            <button onclick="input('0')">0</button>
+            
+            <button onclick="input('4')">4</button>
+            <button onclick="input('5')">5</button>
+            <button onclick="input('6')">6</button>
+            <button onclick="input('.')">.</button>
+            
+            <button onclick="input('1')">1</button>
+            <button onclick="input('2')">2</button>
+            <button onclick="input('3')">3</button>
+            <button class="eq" onclick="calc()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let val1 = 0, op = '', current = '0';
+
+        function input(num) {
+            current = current === '0' ? num : current + num;
+            display.value = current;
+        }
+
+        function setOp(operator) {
+            val1 = parseFloat(current);
+            op = operator;
+            current = '0';
+        }
+
+        function calc() {
+            let result = 0;
+            let val2 = parseFloat(current);
+            
+            if (op === '+') result = val1 + val2;
+            if (op === '-') result = val1 - val2;
+            
+            display.value = result;
+            current = result.toString();
+            op = '';
+        }
+
+        function clearAll() {
+            current = '0';
+            val1 = 0;
+            op = '';
+            display.value = '0';
+        }
+
+        // Update waktu & tanggal
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('time').textContent = 
+                now.toLocaleTimeString('id-ID', {hour12: false});
+            document.getElementById('date').textContent = 
+                now.toLocaleDateString('id-ID', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                });
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
