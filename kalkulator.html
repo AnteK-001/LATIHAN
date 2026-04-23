@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧮 Kalkulator Sederhana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .kalkulator {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .tombol-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        button {
+            padding: 18px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-tambah { background: #4CAF50; color: white; }
+        .btn-kurang { background: #f44336; color: white; }
+        .btn-kali   { background: #2196F3; color: white; }
+        .btn-bagi   { background: #FF9800; color: white; }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .hasil {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .hasil-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .hasil-nilai {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btn-clear {
+            background: #6c757d;
+            color: white;
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+        }
+
+        @media (max-width: 400px) {
+            .kalkulator {
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="kalkulator">
+        <h1>🧮 Kalkulator Sederhana</h1>
+        
+        <div class="input-group">
+            <label>Angka Pertama:</label>
+            <input type="number" id="angka1" placeholder="0" step="any">
+        </div>
+        
+        <div class="input-group">
+            <label>Angka Kedua:</label>
+            <input type="number" id="angka2" placeholder="0" step="any">
+        </div>
+        
+        <div class="tombol-container">
+            <button class="btn-tambah" onclick="hitung('+')">➕</button>
+            <button class="btn-kurang" onclick="hitung('-')">➖</button>
+            <button class="btn-kali" onclick="hitung('*')">✖️</button>
+            <button class="btn-bagi" onclick="hitung('/')">➗</button>
+        </div>
+        
+        <div class="hasil">
+            <div class="hasil-label">Hasil:</div>
+            <div class="hasil-nilai" id="hasil">0</div>
+        </div>
+        
+        <button class="btn-clear" onclick="clearAll()">🗑️ CLEAR SEMUA</button>
+    </div>
+
+    <script>
+        function hitung(operator) {
+            const angka1 = parseFloat(document.getElementById('angka1').value);
+            const angka2 = parseFloat(document.getElementById('angka2').value);
+            
+            if (isNaN(angka1) || isNaN(angka2)) {
+                alert('❌ Masukkan kedua angka terlebih dahulu!');
+                return;
+            }
+            
+            let hasil;
+            switch(operator) {
+                case '+': hasil = angka1 + angka2; break;
+                case '-': hasil = angka1 - angka2; break;
+                case '*': hasil = angka1 * angka2; break;
+                case '/': 
+                    if (angka2 === 0) {
+                        alert('❌ Tidak bisa membagi dengan nol!');
+                        return;
+                    }
+                    hasil = angka1 / angka2; 
+                    break;
+            }
+            
+            document.getElementById('hasil').textContent = hasil.toFixed(2);
+        }
+        
+        function clearAll() {
+            document.getElementById('angka1').value = '';
+            document.getElementById('angka2').value = '';
+            document.getElementById('hasil').textContent = '0';
+        }
+        
+        // Enter key support
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                hitung('+'); // Default tambah
+            }
+        });
+    </script>
+</body>
+</html>
