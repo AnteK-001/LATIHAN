@@ -94,13 +94,11 @@
             current = current === '0' ? num : current + num;
             display.value = current;
         }
-
         function setOp(operator) {
             val1 = parseFloat(current);
             op = operator;
             current = '0';
         }
-
         function calc() {
             let result = 0;
             let val2 = parseFloat(current);
@@ -112,14 +110,12 @@
             current = result.toString();
             op = '';
         }
-
         function clearAll() {
             current = '0';
             val1 = 0;
             op = '';
             display.value = '0';
         }
-
         // Update waktu & tanggal
         function updateTime() {
             const now = new Date();
